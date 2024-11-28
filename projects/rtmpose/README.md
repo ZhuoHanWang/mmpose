@@ -1247,7 +1247,7 @@ If you want to learn more details of profiler, you can refer to the [Profiler Do
 If you need to test the inference accuracy of the model on the deployment backend, MMDeploy provides a convenient `tools/test.py` script.
 
 ```shell
-python tools/test.py \
+python tools/tmp.py \
     configs/mmpose/pose-detection_simcc_onnxruntime_dynamic.py \
     {RTMPOSE_PROJECT}/rtmpose/body_2d_keypoint/rtmpose-m_8xb256-420e_coco-256x192.py \
     --model {PATH_TO_MODEL}/rtmpose_m.pth \

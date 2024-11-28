@@ -138,7 +138,7 @@ MMPose中集成了大量实用训练trick和功能：
 我们可以通过如下指令测试模型在COCO验证集上的精度：
 
 ```Bash
-python tools/test.py \
+python tools/tmp.py \
     configs/body_2d_keypoint/topdown_regression/coco/td-reg_res50_rle-8xb64-210e_coco-256x192.py \
     work_dir/best_coco/AP_epoch_20.pth
 ```

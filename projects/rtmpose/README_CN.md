@@ -1237,7 +1237,7 @@ python tools/profiler.py \
 如果需要测试模型在部署框架下的推理精度，MMDeploy 提供了方便的 `tools/test.py` 脚本。
 
 ```shell
-python tools/test.py \
+python tools/tmp.py \
     configs/mmpose/pose-detection_simcc_onnxruntime_dynamic.py \
     {RTMPOSE_PROJECT}/rtmpose/body_2d_keypoint/rtmpose-m_8xb256-420e_coco-256x192.py \
     --model {PATH_TO_MODEL}/rtmpose_m.pth \

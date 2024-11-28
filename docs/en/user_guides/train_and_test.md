@@ -280,7 +280,7 @@ You can use `tools/test.py` to test a model on a single machine with a CPU and o
 Here is the full usage of the script:
 
 ```shell
-python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
+python tools/tmp.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
 ```
 
 ```{note}
@@ -288,7 +288,7 @@ By default, MMPose prefers GPU to CPU. If you want to test a model on CPU, pleas
 ```
 
 ```shell
-CUDA_VISIBLE_DEVICES=-1 python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
+CUDA_VISIBLE_DEVICES=-1 python tools/tmp.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
 ```
 
 | ARGS                                  | Description                                                                                                                                                         |

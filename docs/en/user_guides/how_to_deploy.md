@@ -280,7 +280,7 @@ If you want to test the inference accuracy of the model in the deployment framew
 # Go to the mmdeploy directory
 cd ${PATH_TO_MMDEPLOY}
 
-python tools/test.py \
+python tools/tmp.py \
     configs/mmpose/pose-detection_simcc_onnxruntime_dynamic.py \
     ./mmpose/projects/rtmpose/rtmpose/body_2d_keypoint/rtmpose-m_8xb256-420e_coco-256x192.py \
     --model {PATH_TO_MODEL}/rtmpose_m.pth \

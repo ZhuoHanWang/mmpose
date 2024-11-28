@@ -70,7 +70,7 @@ During validation and testing, users can specify certain arguments to visualize 
 To visualize in external window during testing:
 
 ```shell
-python tools/test.py ${CONFIG} ${CHECKPOINT} --show
+python tools/tmp.py ${CONFIG} ${CHECKPOINT} --show
 ```
 
 During validation:
@@ -84,7 +84,7 @@ It is suggested to use large `INTERVAL` (e.g., 50) if users want to visualize du
 To save visualization results in `SHOW_DIR` during testing:
 
 ```shell
-python tools/test.py ${CONFIG} ${CHECKPOINT} --show-dir=${SHOW_DIR}
+python tools/tmp.py ${CONFIG} ${CHECKPOINT} --show-dir=${SHOW_DIR}
 ```
 
 During validation:

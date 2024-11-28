@@ -268,7 +268,7 @@ MMPose 还支持在验证过程中可视化模型的推理结果。要启用此�
 你可以使用 `tools/test.py` 在单机上使用 CPU 或单个 GPU 测试模型。
 
 ```shell
-python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
+python tools/tmp.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
 ```
 
 ```{note}
@@ -276,7 +276,7 @@ python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
 ```
 
 ```shell
-CUDA_VISIBLE_DEVICES=-1 python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
+CUDA_VISIBLE_DEVICES=-1 python tools/tmp.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [ARGS]
 ```
 
 | ARGS                                  | Description                                                                                                                                                         |

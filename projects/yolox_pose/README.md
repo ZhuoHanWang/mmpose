@@ -78,7 +78,7 @@ bash tools/slurm_train.sh $PARTITION $JOBNAME $CONFIG $WORKDIR --amp
 **To test with single GPU:**
 
 ```shell
-python tools/test.py $CONFIG $CHECKPOINT
+python tools/tmp.py $CONFIG $CHECKPOINT
 ```
 
 **To test with multiple GPUs:**

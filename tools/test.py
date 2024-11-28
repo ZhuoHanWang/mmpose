@@ -52,7 +52,7 @@ def parse_args():
         default='none',
         help='job launcher')
     # When using PyTorch version >= 2.0.0, the `torch.distributed.launch`
-    # will pass the `--local-rank` parameter to `tools/test.py` instead
+    # will pass the `--local-rank` parameter to `tools/tmp.py` instead
     # of `--local_rank`.
     parser.add_argument('--local_rank', '--local-rank', type=int, default=0)
     parser.add_argument(

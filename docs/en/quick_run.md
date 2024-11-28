@@ -140,7 +140,7 @@ Checkpoints and logs will be saved under `$MMPOSE/work_dirs` by default. The bes
 Use the following command to evaluate the model on COCO dataset:
 
 ```Bash
-python tools/test.py \
+python tools/tmp.py \
     configs/body_2d_keypoint/topdown_regression/coco/td-reg_res50_rle-8xb64-210e_coco-256x192.py \
     work_dir/best_coco/AP_epoch_20.pth
 ```

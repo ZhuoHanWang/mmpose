@@ -63,11 +63,11 @@ Prepare the COCO dataset according to the [instruction](https://mmpose.readthedo
 2. To Train and Test with Single GPU:
 
 ```shell
-python tools/test.py $CONFIG --auto-scale-lr
+python tools/tmp.py $CONFIG --auto-scale-lr
 ```
 
 ```shell
-python tools/test.py $CONFIG $CHECKPOINT
+python tools/tmp.py $CONFIG $CHECKPOINT
 ```
 
 3. To Train and Test with Multiple GPUs:
