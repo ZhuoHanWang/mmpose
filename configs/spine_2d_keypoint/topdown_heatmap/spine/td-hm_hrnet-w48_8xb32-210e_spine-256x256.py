@@ -30,7 +30,7 @@ auto_scale_lr = dict(base_batch_size=512)
 # default_hooks = dict(checkpoint=dict(save_best='coco/AP', rule='greater'))
 
 #key 'PCK' return from mmpose.evaluation.metrics.keypoint_2d_metrics.py
-default_hooks = dict(checkpoint=dict(save_best='PCK', rule='greater'))
+default_hooks = dict(checkpoint=dict(save_best='PCK@0.05', rule='greater'))
 
 # codec settings
 codec = dict(
@@ -93,7 +93,7 @@ model = dict(
 # base dataset settings
 dataset_type = 'SpineDataset'
 data_mode = 'topdown'
-data_root = 'D:/Datasets/spine-unimodal/'
+data_root = 'D:/Datasets/spine/'
 
 # pipelines
 train_pipeline = [
@@ -123,7 +123,7 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='annotations/spine_keypoints_rgb_1_train.json',
+        ann_file='annotations/sample/spine_keypoints_rgb_1_v2_train.json',
         data_prefix=dict(img='images/'),
         pipeline=train_pipeline,
     ))
@@ -137,7 +137,7 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='annotations/spine_keypoints_rgb_1_val.json',
+        ann_file='annotations/sample/spine_keypoints_rgb_1_v2_val.json',
         bbox_file=None,
         data_prefix=dict(img='images/'),
         test_mode=True,
@@ -148,14 +148,18 @@ test_dataloader = val_dataloader
 # evaluators
 #mmpose.evaluation.metrics.keypoint_2d_metrics.py
 val_evaluator = dict(
-    # type='CocoMetric',
-    type='PCKAccuracy',
-    thr=0.05,
-    # ann_file=data_root + 'annotations/spine_keypoints_val.json'
+    # type='PCKAccuracy',
+    # thr=0.05,
+    type='SpineAccuracy',
+    thr_list=[0.05, 0.10, 0.15, 0.2, 0.25],
 )
 test_evaluator = val_evaluator
 
-visualizer = dict(vis_backends=[
+visualizer = dict(
+    draw_bbox=False,
+    vis_backends=[
     dict(type='LocalVisBackend'),
     dict(type='TensorboardVisBackend'),
-])
+    ],
+    radius=4
+)

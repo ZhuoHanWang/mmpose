@@ -105,6 +105,7 @@ class PoseLocalVisualizer(OpencvBackendVisualizer):
     def __init__(self,
                  name: str = 'visualizer',
                  image: Optional[np.ndarray] = None,
+                 draw_bbox: bool = True,
                  vis_backends: Optional[Dict] = None,
                  save_dir: Optional[str] = None,
                  bbox_color: Optional[Union[str, Tuple[int]]] = 'green',
@@ -131,6 +132,7 @@ class PoseLocalVisualizer(OpencvBackendVisualizer):
             save_dir=save_dir,
             backend=backend)
 
+        self.draw_bbox = draw_bbox
         self.bbox_color = bbox_color
         self.kpt_color = kpt_color
         self.link_color = link_color
@@ -197,11 +199,14 @@ class PoseLocalVisualizer(OpencvBackendVisualizer):
 
         if 'bboxes' in instances:
             bboxes = instances.bboxes
-            self.draw_bboxes(
-                bboxes,
-                edge_colors=self.bbox_color,
-                alpha=self.alpha,
-                line_widths=self.line_width)
+            if self.draw_bbox:
+                self.draw_bboxes(
+                    bboxes,
+                    edge_colors=self.bbox_color,
+                    alpha=self.alpha,
+                    line_widths=self.line_width)
+            else:
+                pass
         else:
             return self.get_image()
 
