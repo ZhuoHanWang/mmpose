@@ -1,7 +1,7 @@
 _base_ = ['../../../_base_/default_runtime.py']
-
+# /root/task2/mmpose/configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hourglass52_8xb32-210e_coco-384x384.py
 # runtime
-train_cfg = dict(max_epochs=210, val_interval=10)
+train_cfg = dict(max_epochs=200, val_interval=1)
 
 # optimizer
 optim_wrapper = dict(optimizer=dict(
@@ -26,8 +26,8 @@ param_scheduler = [
 # automatically scaling LR based on the actual training batch size
 auto_scale_lr = dict(base_batch_size=512)
 
-# hooks
-default_hooks = dict(checkpoint=dict(save_best='coco/AP', rule='greater'))
+#key 'PCK' return from mmpose.evaluation.metrics.keypoint_2d_metrics.py
+default_hooks = dict(checkpoint=dict(save_best='PCK@0.01', rule='greater'))
 
 # codec settings
 codec = dict(
@@ -44,6 +44,10 @@ model = dict(
     backbone=dict(
         type='HourglassNet',
         num_stacks=1,
+        init_cfg=dict(
+            type='Pretrained',
+            checkpoint='/root/task2/weight/hourglass52_coco_256x256-4ec713ba_20200709.pth'
+        )  # 加载预训练权重
     ),
     head=dict(
         type='CPMHead',
@@ -60,9 +64,9 @@ model = dict(
     ))
 
 # base dataset settings
-dataset_type = 'CocoDataset'
+dataset_type = 'SpineDataset'
 data_mode = 'topdown'
-data_root = 'data/coco/'
+data_root = '/root/task2/dataset'   # 记得改数据根路径
 
 # pipelines
 train_pipeline = [
@@ -84,7 +88,7 @@ val_pipeline = [
 
 # data loaders
 train_dataloader = dict(
-    batch_size=32,
+    batch_size=2,
     num_workers=2,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -92,12 +96,12 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='annotations/person_keypoints_train2017.json',
-        data_prefix=dict(img='train2017/'),
+        ann_file='annotations/sample/spine_keypoints_rgb_1_v2_train.json',
+        data_prefix=dict(img='images/'),
         pipeline=train_pipeline,
     ))
 val_dataloader = dict(
-    batch_size=32,
+    batch_size=1,
     num_workers=2,
     persistent_workers=True,
     drop_last=False,
@@ -106,17 +110,29 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='annotations/person_keypoints_val2017.json',
-        bbox_file='data/coco/person_detection_results/'
-        'COCO_val2017_detections_AP_H_56_person.json',
-        data_prefix=dict(img='val2017/'),
+        ann_file='annotations/sample/spine_keypoints_rgb_1_v2_val.json',
+        bbox_file=None,
+        data_prefix=dict(img='images/'),
         test_mode=True,
         pipeline=val_pipeline,
     ))
 test_dataloader = val_dataloader
 
 # evaluators
+#mmpose.evaluation.metrics.keypoint_2d_metrics.py
 val_evaluator = dict(
-    type='CocoMetric',
-    ann_file=data_root + 'annotations/person_keypoints_val2017.json')
+    # type='PCKAccuracy',
+    # thr=0.05,
+    type='SpineAccuracy',
+    thr_list=[0.01, 0.03, 0.05, 0.1, 0.15],
+)
 test_evaluator = val_evaluator
+
+visualizer = dict(
+    draw_bbox=False,
+    vis_backends=[
+    dict(type='LocalVisBackend'),
+    dict(type='TensorboardVisBackend'),
+    ],
+    radius=4
+)

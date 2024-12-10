@@ -209,8 +209,8 @@ class CSPLayer(BaseModule):
                  in_channels: int,
                  out_channels: int,
                  expand_ratio: float = 0.5,
-                 num_blocks: int = 1,
-                 add_identity: bool = True,
+                 num_blocks: int = 1,           # block的数量，控制模型的深度
+                 add_identity: bool = True,     # block中是否使用残差连接
                  use_depthwise: bool = False,
                  use_cspnext_block: bool = False,
                  channel_attention: bool = False,
@@ -250,7 +250,7 @@ class CSPLayer(BaseModule):
                 mid_channels,
                 mid_channels,
                 1.0,
-                add_identity,
+                add_identity,   # 是否使用残差连接
                 use_depthwise,
                 conv_cfg=conv_cfg,
                 norm_cfg=norm_cfg,

@@ -1,5 +1,5 @@
 _base_ = ['../../../_base_/default_runtime.py']
-
+# /root/task2/mmpose/projects/skps/configs/td-hm_hrnetv2-w18_skps-1xb16-160e_cofw-256x256.py
 # runtime
 train_cfg = dict(max_epochs=200, val_interval=1)
 
@@ -26,17 +26,13 @@ param_scheduler = [
 # automatically scaling LR based on the actual training batch size
 auto_scale_lr = dict(base_batch_size=512)
 
-# hooks
-# default_hooks = dict(checkpoint=dict(save_best='coco/AP', rule='greater'))
-
 #key 'PCK' return from mmpose.evaluation.metrics.keypoint_2d_metrics.py
-default_hooks = dict(checkpoint=dict(save_best='PCK@0.05', rule='greater'))
+default_hooks = dict(checkpoint=dict(save_best='PCK@0.01', rule='greater'))
 
 # codec settings
 codec = dict(
     type='MSRAHeatmap', input_size=(256, 256), heatmap_size=(64, 64), sigma=2)
 
-# model settings
 model = dict(
     type='TopdownPoseEstimator',
     data_preprocessor=dict(
@@ -71,15 +67,20 @@ model = dict(
                 num_branches=4,
                 block='BASIC',
                 num_blocks=(4, 4, 4, 4),
-                num_channels=(48, 96, 192, 384))),
+                num_channels=(48, 96, 192, 384),
+                multiscale_output=True),
+            upsample=dict(mode='bilinear', align_corners=False)),
         init_cfg=dict(
             type='Pretrained',
-            checkpoint='https://download.openmmlab.com/mmpose/'
-            'pretrain_models/hrnet_w48-8ef0771d.pth'),
+            checkpoint='https://download.openmmlab.com/mmpose/pretrain_models/hrnet_w48-8ef0771d.pth'),
+    ),
+    neck=dict(
+        type='FeatureMapProcessor',
+        concat=True,
     ),
     head=dict(
         type='HeatmapHead',
-        in_channels=48,
+        in_channels=720,  # 48+96+192+384=720
         out_channels=17,
         deconv_out_channels=None,
         loss=dict(type='KeypointMSELoss', use_target_weight=True),
@@ -89,11 +90,10 @@ model = dict(
         flip_mode='heatmap',
         shift_heatmap=True,
     ))
-
 # base dataset settings
 dataset_type = 'SpineDataset'
 data_mode = 'topdown'
-data_root = 'D:/Datasets/spine/'
+data_root = '/root/task2/dataset'   # 记得改数据根路径
 
 # pipelines
 train_pipeline = [
@@ -151,7 +151,7 @@ val_evaluator = dict(
     # type='PCKAccuracy',
     # thr=0.05,
     type='SpineAccuracy',
-    thr_list=[0.05, 0.10, 0.15, 0.2, 0.25],
+    thr_list=[0.01, 0.03, 0.05, 0.1, 0.15],
 )
 test_evaluator = val_evaluator
 

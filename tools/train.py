@@ -5,6 +5,7 @@ import os.path as osp
 
 from mmengine.config import Config, DictAction
 from mmengine.runner import Runner
+from mmengine.registry import MODELS  # 确保导入 MODELS 时已经注册了模型
 
 
 def parse_args():
